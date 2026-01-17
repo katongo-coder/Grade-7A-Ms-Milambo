@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>All Subjects Results | Grade 7C</title>
+    <title>All Subjects Results | Grade 7A</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.23/jspdf.plugin.autotable.min.js"></script>
     <style>
@@ -80,8 +80,8 @@
                 <h1>Full Subject Performance Report</h1>
                 <div class="btn-group">
                     <input type="text" id="searchInput" class="search-box" placeholder="Search learner name..." onkeyup="filterTable()">
-                    <button class="btn btn-primary" onclick="exportToPDF()">PDF Export</button>
-                    <button class="btn btn-success" onclick="backupData()">Backup JSON</button>
+                    <button class="btn btn-primary" onclick="exportToPDF()">Download PDF Export</button>
+                    <button class="btn btn-success" onclick="backupData()">Backup</button>
                     <button class="btn btn-warning" onclick="document.getElementById('importFile').click()">Restore/Merge</button>
                     <input type="file" id="importFile" style="display:none" onchange="restoreData(this)">
                 </div>
@@ -246,7 +246,7 @@
             const doc = new jsPDF('l', 'mm', 'a4');
             
             doc.setFontSize(18);
-            doc.text("Grade 7C - Full Subject Performance Report", 14, 15);
+            doc.text("Grade 7A - Full Subject Performance Report", 14, 15);
             
             doc.autoTable({
                 html: '#results-table',
@@ -257,7 +257,7 @@
                 footStyles: { fillColor: [241, 244, 249], textColor: [44, 62, 80], fontStyle: 'bold' }
             });
 
-            doc.save(`Grade7C_Full_Results_${new Date().toISOString().split('T')[0]}.pdf`);
+            doc.save(`Grade7A_Full_Results_${new Date().toISOString().split('T')[0]}.pdf`);
         }
 
         window.onload = loadResults;
