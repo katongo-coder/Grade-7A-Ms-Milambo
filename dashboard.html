@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard | Grade 7C</title>
+    <style>
+        :root { --primary: #2c3e50; --accent: #3498db; --light: #f4f7f6; }
+        body { margin: 0; font-family: 'Segoe UI', sans-serif; background: var(--light); display: flex; }
+        .sidebar { width: 250px; background: var(--primary); color: white; height: 100vh; position: fixed; transition: 0.3s; left: 0; }
+        .sidebar.hidden { left: -250px; }
+        .main { margin-left: 250px; padding: 40px; width: 100%; transition: 0.3s; }
+        .main.full { margin-left: 0; }
+        .card-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+        .card { background: white; padding: 30px; border-radius: 15px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
+        .profile-area { padding: 20px; text-align: center; border-bottom: 1px solid #34495e; }
+        .profile-img { width: 80px; height: 80px; border-radius: 50%; cursor: pointer; border: 2px solid var(--accent); object-fit: cover; }
+        nav ul { list-style: none; padding: 0; }
+        nav li a { color: white; text-decoration: none; padding: 15px 25px; display: block; border-bottom: 1px solid #34495e; }
+        .menu-toggle { position: fixed; top: 20px; left: 20px; background: var(--primary); color: white; border: none; padding: 10px; border-radius: 5px; cursor: pointer; z-index: 1001; }
+    </style>
+</head>
+<body>
+    <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    <div class="sidebar" id="sidebar">
+        <div class="profile-area">
+            <img id="user-pic" src="https://www.w3schools.com/howto/img_avatar.png" class="profile-img" onclick="document.getElementById('pic-input').click()">
+            <input type="file" id="pic-input" hidden onchange="uploadPic(this)">
+            <p>Ms. Milambo S 7A</p>
+            <small onclick="logout()" style="cursor:pointer; color: #e74c3c;">Logout</small>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="dashboard.html">🏠 Dashboard</a></li>
+                <li><a href="enrollment.html">👥 Grade 7A Enrollment</a></li>
+                <li><a href="daily_register.html">📝 Daily Register</a></li>
+                <li><a href="mark_entry.html">📊 Enter Marks 2 Subjects</a></li>
+                <li><a href="view_marks.html">📜 View Results 2 Subjects</a></li>
+                <li><a href="daily_attendance_list.html" style="background: #34495e;">📂 Daily Attendance List</a></li>
+                <li><a href="mark_entry_all.html">📂 Enter All Subjects</a></li>
+                <li><a href="all_subject_results.html">📂 View All Subjects</a></li>
+                <li><a href="term_attendance.html">📂 Term Attendance</a></li>
+                <li><a href="#" onclick="logout()" style="color: var(--danger);">🚪 Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <div class="main" id="main">
+        <h1>Grade 7C Dashboard</h1>
+        <div class="card-grid">
+            <div class="card"><h2>Boys</h2><p id="b-count">0</p></div>
+            <div class="card"><h2>Girls</h2><p id="g-count">0</p></div>
+            <div class="card"><h2>Total</h2><p id="t-count">0</p></div>
+        </div>
+    </div>
+
+    <script>
+        if(localStorage.getItem('loggedIn') !== 'true') window.location.href = 'index.html';
+        if(localStorage.getItem('profile_pic')) document.getElementById('user-pic').src = localStorage.getItem('profile_pic');
+
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('hidden');
+            document.getElementById('main').classList.toggle('full');
+        }
+
+        function uploadPic(input) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                localStorage.setItem('profile_pic', e.target.result);
+                document.getElementById('user-pic').src = e.target.result;
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+
+        function logout() {
+            localStorage.removeItem('loggedIn');
+            window.location.href = 'index.html';
+        }
+
+        const data = JSON.parse(localStorage.getItem('grade7C_data')) || [];
+        document.getElementById('b-count').innerText = data.filter(s => s.gender === 'Boy').length;
+        document.getElementById('g-count').innerText = data.filter(s => s.gender === 'Girl').length;
+        document.getElementById('t-count').innerText = data.length;
+    </script>
+</body>
+</html>
